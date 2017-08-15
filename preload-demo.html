@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>图片预加载</title>
+</head>
+<style type="text/css">
+	body, html, div, blockquote, img, label, p, h1, h2, h3, h4, h5, h6, pre, ul, ol,
+	li, dl, dt, dd, form, a, fieldset, input, th, td
+	{margin: 0; padding: 0; border: 0; outline: none;}
+	.box{text-align: center;}
+	.btn{
+		display: inline-block;
+		height: 30px;
+		line-height: 30px;
+		border: 1px solid #ccc;
+		background-color: #fff;
+		padding: 0 10px;
+		margin-right: 50px;
+		color: #333;
+		text-decoration: none;
+	}
+	.btn:hover{
+		background-color: #eee;
+	}
+	.loading{
+		position: fixed;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		margin: auto;
+		background-color: #eee;
+		
+	}
+	.progress1{
+		margin-top: 200px;
+		font-size: 30px;text-align: center;
+	}
+	.progress2{
+		height: 5px;
+		position: absolute;;
+		top: 0;
+		left: 0;
+		background-color: #F22;
+	}
+</style>
+<body>
+	<div class="loading">
+		<!-- <p class="progress1">0%</p> -->  <!-- 数字显示预加载进度 -->
+		<p class="progress2"></p><!-- 进度条展示预加载进度 -->
+	</div>
+	<div class="box">
+		<div class="container">
+			<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1502790366919&di=10c4e9a4b1e709521d9221442da09a30&imgtype=0&src=http%3A%2F%2Fimg.bimg.126.net%2Fphoto%2FoM_UO94T-HaQIQLuhdULSA%3D%3D%2F5774177672242663144.jpg" alt="pic" id="img" width='1000px' height='600px'>
+		</div>
+	<p>
+		<a href="javascript:;" class="btn" data-control='pre'>上一页</a>
+		<a href="javascript:;" class="btn" data-control='next'>下一页</a>
+	</p>
+	</div>
+
+<script type="text/javascript" src='https://cdn.bootcss.com/jquery/1.9.0/jquery.js'></script>
+<script type="text/javascript">
+	var imgs=[
+	"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1502790366919&di=10c4e9a4b1e709521d9221442da09a30&imgtype=0&src=http%3A%2F%2Fimg.bimg.126.net%2Fphoto%2FoM_UO94T-HaQIQLuhdULSA%3D%3D%2F5774177672242663144.jpg",
+	'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1502790366919&di=899bc315ae12ae4ed54ed9973e9b197a&imgtype=0&src=http%3A%2F%2Fuserimage8.360doc.com%2F16%2F0716%2F11%2F642066_201607161137450134876799.jpg',
+	'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1502790366917&di=75c1a6b13d3399e0a7130163ff28a555&imgtype=0&src=http%3A%2F%2Fimage.tianjimedia.com%2FuploadImages%2F2011%2F286%2FE27LF6AIAG2W.jpg',
+	'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1502791298389&di=43f3475699d8d7a630591af1fe5fd7d8&imgtype=jpg&src=http%3A%2F%2Fa.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F314e251f95cad1c80fefc1e6763e6709c83d519e.jpg',
+	'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1502790366670&di=da416a832a33a9dde0b14877bafe69d9&imgtype=0&src=http%3A%2F%2Ftupian.enterdesk.com%2F2012%2F1029%2Fzyz%2F03%2F14583115_1350966109847.jpg',
+	'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1502790366667&di=1bf3a6b1c5757ecf25bd75bcd7dcaa06&imgtype=0&src=http%3A%2F%2Fwww.wallcoo.com%2Fnature%2FSummer_Fantasy_Landscapes%2Fwallpapers%2F1680x1050%2FSummer_Fantasy_landscape_by_photo_manipulation_34467184.jpg',
+	'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1502790366661&di=d255d9e8435546ca4e648fdf068d0148&imgtype=0&src=http%3A%2F%2Fimg.tuku.cn%2Ffile_big%2F201503%2Fd8905515d1c046aeba51025f0ea842f0.jpg'
+	];
+	var index=0,
+		len=imgs.length,
+		count=0,
+		$progress1=$('.progress1'),
+		$progress2=$('.progress2');
+	$.each(imgs,function(i,src){
+		var imgObj= new Image();
+		$(imgObj).on('load error',function(){
+			$progress1.html(Math.round((count+1)/len*100)+'%');
+			$progress2.width(Math.round((count+1)/len*100)+'%');
+			if (count>=len-1) {
+				$(".loading").hide();
+				document.title='1/'+len;
+			}
+			count++;
+		});
+		imgObj.src=src;
+	});
+	$('.btn').on('click',function(){
+		if('pre'===$(this).data('control')){//上一张
+			index=Math.max(0,--index);
+		}else{//下一张
+			index=Math.min(++index,len-1);
+		}
+		document.title = (index+1) + '/' + len;
+		$('#img').attr('src',imgs[index]);
+	});
+</script>
+</body>
+</html>
