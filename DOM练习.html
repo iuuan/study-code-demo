@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title> new document </title>  
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>   
+  <script type="text/javascript"> 
+      window.onload = function(){
+        var trs = document.getElementsByTagName('tr');
+           for(var i = 1; i < trs.length; i++){
+                trs[i].onmouseover = function(){
+                     this.style.backgroundColor = "red";
+                }
+                trs[i].onmouseout = function(){
+                     this.style.backgroundColor = "#fff";
+                }
+          }
+        }  
+
+
+     function add(){
+         var id=prompt("请输入学号");
+         var name=prompt("请输入姓名");
+         var tr=document.createElement("tr");
+         tr.innerHTML="<td>"+id+"</td><td>"+name+"</td><td><a href=javascript:; onclick='del(this)'>删除</a></td>";
+         var table=document.getElementById("table");
+         table.appendChild(tr);
+        
+     }
+      // 编写一个函数，供添加按钮调用，动态在表格的最后一行添加子节点；
+     
+    	function del(obj){
+     	var tr = obj.parentNode.parentNode;
+     	tr.parentNode.removeChild(tr);
+     }
+     // 创建删除函数
+     
+
+
+  </script> 
+ </head> 
+ <body> 
+	   <table border="1" width="50%" id="table">
+	   <tr>
+		<th>学号</th>
+		<th>姓名</th>
+		<th>操作</th>
+	   </tr>  
+
+	   <tr>
+		<td>xh001</td>
+		<td>王小明</td>
+		<td><a href="javascript:;" onclick='del(this);return=false'>删除</a></td>   <!--在删除按钮上添加点击事件  -->
+	   </tr>
+
+	   <tr>
+		<td>xh002</td>
+		<td>刘小芳</td>
+		<td><a href="javascript:;" onclick='del(this)'>删除</a></td>   <!--在删除按钮上添加点击事件  -->
+	   </tr>  
+
+	   </table>
+	   <input type="button" value="添加一行" onclick="add()"  />   <!--在添加按钮上添加点击事件  -->
+ </body>
+</html>

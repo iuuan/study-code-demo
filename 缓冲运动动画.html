@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>JS速度动画</title>
+	<style type="text/css">
+	*{margin:0;padding: 0;}
+#div1 {width:200px;height:200px;background:red;position:relative;left:-200px;top:30px;}
+#div1 span {width:20px;height:50px;background:skyblue;position:absolute;left:200px;top:75px;}
+	</style>
+	<script type="text/javascript">
+		window.onload=function(){
+			var oDiv=document.getElementById("div1");
+			oDiv.onmouseover=function(){
+				startMove(0);
+			}
+			oDiv.onmouseout=function(){
+				startMove(-200);
+			}
+		}
+		var timer=null;
+		function startMove(iTarget){
+			clearInterval(timer);
+			var oDiv=document.getElementById("div1");
+			timer=setInterval(function(){
+				var speed=(iTarget-oDiv.offsetLeft)/20;
+				speed=speed>0?Math.ceil(speed):Math.floor(speed);
+				/*原因：当offsetLeft值变的越来越小时，最后相除会使speed变成小数，从而offsetLeft与speed相加会有小数，又因显示器的最小像素单位是1px，所以浏览器默认向下取整（变小，即floor），将小数省略，小数省略后，最终的值会变小，从而导致程序无法进入if判断，进入死循环。
+				这一点可以用console.log(speed)可以验证，speed的log会一直输出，因为程序死循环了。
+                所以，需要ceil or floor来解决这个问题，让程序进入if的判断，终止循环。*/
+				//console.log(speed);
+			if(oDiv.offsetLeft==iTarget){
+				clearInterval(timer);	
+			}else{
+				oDiv.style.left=oDiv.offsetLeft+speed+"px";
+			}	
+			},30);
+		}
+		/*function startMove1(speed,iTarget){
+			clearInterval(timer);
+			var oDiv=document.getElementById("div1");
+			timer=setInterval(function(){
+			if(oDiv.offsetLeft==iTarget){
+				clearInterval(timer);
+			}else{
+				oDiv.style.left=oDiv.offsetLeft-speed+"px";
+			}	
+			},30);
+		}*/
+	</script>
+</head>
+<body>
+	<div id="div1">
+	<span id="share">分享</span>
+	</div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Grid layout Demo</title>
+	<style type="text/css">
+/*		.wrap {
+			display: grid;
+			grid-template-rows: 100px 30px;
+			grid-template-columns: 200px 50px 100px;}
+		.item {
+			border: 1px solid #ccc;
+			margin: 2px;
+			text-align: center;
+
+		}*/
+		.wrap{
+			display: grid;
+			grid-template-columns: 100px 100px 100px;
+			grid-template-rows: 100px 100px 100px;
+			}
+		.item{
+			/*border: 1px solid #ccc;*/
+			justify-self:center;
+			align-self: center;
+		}
+		.item1{
+/*			grid-column-start: 1;
+			grid-column-end: 4;*/
+			grid-column: 1/3;
+
+		}
+		.item3{
+			grid-row-start: 2;
+			grid-row-end: 4;
+		}
+		.item4{
+			grid-column: 2/4;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<div class='item item1'>1234556788990</div>
+		<div class='item item2'>2</div>
+		<div class='item item3'>3</div>
+		<div class='item item4'>4</div>
+		<div class='item item5'>5</div>
+		<div class='item item6'>6</div>
+	</div>
+</body>
+</html>

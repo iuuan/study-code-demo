@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>explore of insertBefore</title>
+</head>
+<body>
+	<div id ='wrap'>
+		<ul id = 'list'>
+			<li class='item'>water</li>
+			<li class='item'>coffee</li>
+			<li class='item'>juice</li>
+		</ul>
+		<button id="btn">add</button>
+	</div>
+	<script type="text/javascript">
+		function addItem(){
+		let lists = document.getElementById("list"),
+			newItem = document.createElement("li"),
+			text = document.createTextNode("tea");
+			newItem.appendChild(text);
+			lists.insertBefore(newItem);
+		}
+		let btn = document.getElementById("btn");
+		btn.addEventListener("click",addItem,false);
+	</script>
+</body>
+</html>
